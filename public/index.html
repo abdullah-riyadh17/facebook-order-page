@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1877F2; /* Facebook Blue */
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, select {
+            margin-bottom: 15px;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #1877F2; /* Facebook Blue */
+            color: white;
+            cursor: pointer;
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #145db2; /* Darker Facebook Blue */
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #1877F2; /* Facebook Blue */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>অর্ডার ফর্ম</h2>
+        <form id="orderForm">
+            <label for="name">নাম *</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="mobile">মোবাইল নম্বর *</label>
+            <input type="text" id="mobile" name="mobile" required pattern="\d{11}" title="১১ সংখ্যার মোবাইল নম্বর দিন">
+
+            <label for="address">ঠিকানা *</label>
+            <input type="text" id="address" name="address" required>
+
+            <label for="product">পণ্য</label>
+            <select id="product" name="product">
+                <option value="">পণ্য নির্বাচন করুন</option>
+                <option value="Product 1">পণ্য ১</option>
+                <option value="Product 2">পণ্য ২</option>
+                <option value="Product 3">পণ্য ৩</option>
+            </select>
+
+            <label for="quantity">পরিমাণ</label>
+            <input type="number" id="quantity" name="quantity" min="1">
+
+            <input type="submit" value="অর্ডার জমা দিন">
+        </form>
+        <footer>ফেসবুক পেজের অর্ডার</footer>
+    </div>
+
+    <script>
+        document.getElementById('orderForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            const response = await fetch('/submit-order', {
+                method: 'POST',
+                body: new URLSearchParams(formData)
+            });
+
+            const result = await response.text();
+            alert(result);
+        });
+    </script>
+</body>
+</html>
